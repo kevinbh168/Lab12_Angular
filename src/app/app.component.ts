@@ -3,6 +3,7 @@ import { ProductosService } from './productos.service';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
+
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
@@ -18,9 +19,13 @@ export class AppComponent {
   }
 
   constructor(private productosServicio: ProductosService) {}
-
+  uploadedFiles: Array <File>;
   ngOnInit() {
     this.recuperarTodos();
+  }
+
+  fileChange(element){
+    this.uploadedFiles = element.target.files
   }
 
   recuperarTodos() {
@@ -30,7 +35,17 @@ export class AppComponent {
   }
 
   nuevo() {
-    this.productosServicio.nuevo(this.prod).subscribe(result => {
+    let formData = new FormData();
+     for(var i = 0; i < this.uploadedFiles.length; i++){
+       formData.append("uploads[]",
+       this.uploadedFiles[i],
+       this.uploadedFiles[i].name);
+     }
+
+     formData.append("codigo", this.prod.codigo);
+     formData.append("descripcion", this.prod.descripcion);
+     formData.append("precio", this.prod.precio);
+    this.productosServicio.nuevo(formData).subscribe(result => {
       console.log(result)
       // if (result=='ok') {
       if (result) {
