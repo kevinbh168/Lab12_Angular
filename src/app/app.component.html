@@ -6,39 +6,20 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 <div style="text-align:center">
-  <a routerLink="/productos">Productos</a> - 
-  <a routerLink="/acercade">Acerca de ...</a>
+  <a routerLink="/productos">Productos</a>  
   <div style="border: 1px solid red">
     <router-outlet></router-outlet>
   </div>
 </div>
 
 <div align="center" class="container">
-  <h1>Administración de artículos - Aliaga</h1>
-    <table border="1" *ngIf="hayRegistros(); else sinproductos" class="table">
-      <thead>
-      <tr>
-        <td><b>Codigo</b></td>
-        <td><b>Nombre</b></td>
-        <td><b>Precio</b></td>
-        <td><b>Imagen</b></td>
-        <td><b>Borrar</b></td>
-        <td><b>Seleccionar</b></td>
-      </tr>
-      </thead>
-      <tr *ngFor="let producto of lista">
-        <td>{{producto.codigo}}</td>
-        <td>{{producto.descripcion}}</td>
-        <td>{{producto.precio}}</td>
-        <td><img src="http://localhost:3000{{producto.imagen}}" width="100px" ></td>
-        <td><button (click)="eliminar(producto.codigo)" class="btn btn-danger">Borrar?</button></td>
-        <td><button (click)="mostrar(producto.codigo)" class="btn btn-success">Seleccionar</button></td>
-      </tr>
-    </table>
-    <ng-template #sinproductos><p>No hay productos</p></ng-template>
-    <div>
+
+  <div class="row">
+    <div class="col-md-4">
       <form action="/productos" method="POST" enctype="multipart/form-data">
-      <h1>Datos</h1>
+        <br>
+        <br>
+      <h2>Registrar productos</h2>
       <p>
         Descripcion:<input name="descripcion" class="form-control" type="text" [(ngModel)]="prod.descripcion" />
       </p>
@@ -50,8 +31,42 @@
         Imagen: <input type="file" (change)="fileChange($event)" />
       </p>
         
-      <p><button (click)="nuevo()" class="btn btn-primary">Agregar</button>
-      <button (click)="actualizar()" class="btn btn-success">Modificar</button></p>
+      <div class="row">
+      <div class="col-md-6">
+      <button (click)="nuevo()" class="btn btn-primary btn-block">Agregar</button>
+      </div>
+      <div class="col-md-6">
+      <button (click)="actualizar()" class="btn btn-success btn-block">Modificar</button>
+      </div>
+       </div>
     </form>
     </div>
+
+   <div style="border: 1px solid red; width: 1px; height: 500px">
+    <div class="col-md-8">
+      <br>
+      <br>
+    <table *ngIf="hayRegistros(); else sinproductos" class="table table stiped">
+      <thead>
+      <tr style="text-align: center;">
+        <td><b>Codigo</b></td>
+        <td><b>Nombre</b></td>
+        <td><b>Precio</b></td>
+        <td><b>Imagen</b></td>
+        <td colspan="2"><b>Opciones</b></td>
+  
+      </tr>
+      </thead>
+      <tr *ngFor="let producto of lista">
+        <td>{{producto.codigo}}</td>
+        <td>{{producto.descripcion}}</td>
+        <td>S/.{{producto.precio}}</td>
+        <td style="text-align: center;"><img src="http://localhost:3000/images/{{producto.imagen}}" height="120px" ></td>
+        <td><button (click)="eliminar(producto.codigo)" class="btn btn-danger">Borrar</button></td>
+        <td><button (click)="mostrar(producto.codigo)" class="btn btn-success">Seleccionar</button></td>
+      </tr>
+    </table>
+    <ng-template #sinproductos><p>No hay productos</p></ng-template>
+  </div>
+  </div>
 </div>
